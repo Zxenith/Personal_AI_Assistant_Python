@@ -22,7 +22,7 @@ This Python script creates a personal voice assistant utilizing speech recogniti
 1. Clone this repository.
 2. Install the required dependencies:
 
-pip install pyttsx3 speechrecognition opencv-python wikipedia
+```pip install pyttsx3 speechrecognition opencv-python wikipedia```
 
 3. Run the script.
 
