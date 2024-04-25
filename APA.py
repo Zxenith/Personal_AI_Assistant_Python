@@ -1,9 +1,14 @@
 import datetime
+import sys
 import pyttsx3 as pt3
 import speech_recognition as sr
 import datetime as dt
 import os
 import cv2
+from requests import get
+import wikipedia
+import webbrowser as wb
+import time
 
 #Engine initialisation.
 engine = pt3.init('sapi5')
@@ -37,9 +42,9 @@ def commander():
         audio = recognizer.listen(source,timeout=1,phrase_time_limit=5)
 
     #Error handling must be further avoided.
+    print("Listening...")
 
     try:
-        print("Listening...")
         query = recognizer.recognize_google(audio, language='en-in')
         print(f'You said: \n{query}')
 
@@ -69,7 +74,7 @@ def wishme():
 
 if __name__ == "__main__":
     # commander()
-    # wishme()
+    wishme()
     while True:
 
         query = commander()
@@ -81,20 +86,17 @@ if __name__ == "__main__":
             path = "C:\\Windows\\System32\\notepad.exe"
             speak("Opening Notepad")
             os.startfile(path)
-            break
 
 
         elif 'open counter strike' in query or 'open CS' in query:
             path = "C:\\Users\\akars\\OneDrive\\Desktop\\Counter-Strike Global Offensive.url"
             speak("Opening Counter Strike")
             os.startfile(path)
-            break
 
 
-        elif 'open command prompt' in query:
+        elif 'open command prompt' in query or 'open cmd' in query:
             speak('Opening Command Prompt')
             os.system('start cmd')
-            break
 
 
         elif 'open camera' in query:
@@ -111,10 +113,49 @@ if __name__ == "__main__":
 
             cam.release()
             cv2.destroyAllWindows()
-            break
+
 
         elif 'play music' in query:
             music = "C:\\404\\VirtualAssistant\\Music"
             songs = os.listdir(music)
             os.startfile(os.path.join(music,songs[0]))
+
+
+        elif 'ip address' in query:
+            ip = get('https://api.ipify.org').text #Getting IP through API calls
+            speak(f'Your IP Address is {ip}')
+
+
+        elif 'wikipedia' in query:
+            speak('Searching in Wikipedia, please wait...')
+            query = query.replace('wikipedia', "")
+            results = wikipedia.summary(query, sentences=2)
+            speak(f'According to Wikipedia {results}')
+
+
+        elif 'open youtube' in query:
+            speak('Opening YouTube')
+            wb.open("www.youtube.com")
+
+
+        elif 'open google' in query:
+            speak('Sir, What should I search on Google?')
+            google_it = commander()
+            wb.open(f'{google_it}')
+
+
+        elif 'how are you' in query:
+            speak('I am doing well. I hope you are also doing well.')
+
+        time.sleep(4)
+        speak('Sir, can I do something else for you?')
+
+        query2 = commander()
+
+        if 'yes' in query2:
+            continue
+
+        if 'no' in query2:
+            speak('Thank you for trusting me. Have a good day!')
+            sys.exit()
             break
