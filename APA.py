@@ -157,16 +157,12 @@ if __name__ == "__main__":
         elif 'how are you' in query:
             # Respond to how are you
             speak('I am doing well. I hope you are also doing well.')
+        
 
-        time.sleep(4)
-        speak('Sir, can I do something else for you?')
-
-        query2 = commander()
-
-        if 'yes' in query2:
-            continue
-
-        if 'no' in query2:
+        if 'no thank' in query:
             speak('Thank you for trusting me. Have a good day!')
             sys.exit()
             break
+
+        time.sleep(4)
+        speak('Sir, can I do something else for you?')
